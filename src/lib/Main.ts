@@ -1,6 +1,7 @@
 ﻿import * as winston from "winston";
 import * as fs from "fs";
 import {IConfig} from "./IConfig";
+import {MongoCache} from "./MongoCache";
 
 // Saves logs to file
 winston.add(winston.transports.File, { filename: "logs.log", maxsize: 50000000, maxFiles: 1, tailable: true });
@@ -48,11 +49,6 @@ server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
 server.use(prerender.httpHeaders());
 
-// Custom plugins
-server.use(this);
-
-winston.info(`Rerender set to port: ${config.port}`, { process: process.pid });
-
 // By default prerender uses bcrypt & weak - but we dont need this as its a bitch to setup
 // Below is a way of configuring it so that prerender forces phantom to not use weak
 server.options.phantomArguments = [];
@@ -65,5 +61,24 @@ server.options.phantomArguments.push = function ()
     return Array.prototype.push.apply(this, arguments);
 }
 
-// Start the server
-server.start();
+
+// Custom cache plugin
+var cache = new MongoCache(config);
+cache.initialize().then(function ()
+{
+    server.use(cache);
+
+    winston.info(`Rerender set to port: ${config.port}`, { process: process.pid });
+
+    // Start the server
+    server.start();
+
+}).catch(function (error: Error)
+{
+    winston.error(`An error occurred while setting up the cache: ${error.message}`, { process: process.pid });
+    process.exit();
+});
+
+
+
+

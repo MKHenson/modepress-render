@@ -1,5 +1,6 @@
 var winston = require("winston");
 var fs = require("fs");
+var MongoCache_1 = require("./MongoCache");
 // Saves logs to file
 winston.add(winston.transports.File, { filename: "logs.log", maxsize: 50000000, maxFiles: 1, tailable: true });
 winston.info("Setting up modepress server", { process: process.pid });
@@ -35,9 +36,6 @@ server.use(prerender.blacklist());
 server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
 server.use(prerender.httpHeaders());
-// Custom plugins
-server.use(this);
-winston.info("Rerender set to port: " + config.port, { process: process.pid });
 // By default prerender uses bcrypt & weak - but we dont need this as its a bitch to setup
 // Below is a way of configuring it so that prerender forces phantom to not use weak
 server.options.phantomArguments = [];
@@ -47,5 +45,14 @@ server.options.phantomArguments.push = function () {
     //Do what you want here...
     return Array.prototype.push.apply(this, arguments);
 };
-// Start the server
-server.start();
+// Custom cache plugin
+var cache = new MongoCache_1.MongoCache(config);
+cache.initialize().then(function () {
+    server.use(cache);
+    winston.info("Rerender set to port: " + config.port, { process: process.pid });
+    // Start the server
+    server.start();
+}).catch(function (error) {
+    winston.error("An error occurred while setting up the cache: " + error.message, { process: process.pid });
+    process.exit();
+});

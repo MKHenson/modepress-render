@@ -5,6 +5,7 @@
   "main": "./Main.js",
   "author": "Mathew Henson",
   "dependencies": {
+    "mongodb": "~2.0.21",
     "winston": "~1.0.0",
     "prerender": "~3.18.0"
   }

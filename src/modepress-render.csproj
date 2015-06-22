@@ -56,8 +56,10 @@
     <TypeScriptCompile Include="lib\definitions\mongodb.d.ts" />
     <TypeScriptCompile Include="lib\definitions\node.d.ts" />
     <TypeScriptCompile Include="lib\definitions\winston.d.ts" />
+    <TypeScriptCompile Include="lib\ICacheItem.d.ts" />
     <TypeScriptCompile Include="lib\IConfig.d.ts" />
     <TypeScriptCompile Include="lib\Main.ts" />
+    <TypeScriptCompile Include="lib\MongoCache.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\server\config.json">
