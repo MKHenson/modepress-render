@@ -2,7 +2,7 @@
 Modepress render is a server that runs in conjunction with modepress and allows you to pre-render the pages for SEO and web crawling
 
 ## Current stable version
-* v0.0.1
+* v0.0.2
 
 ## Requirements
 * MongoDB v3
@@ -48,5 +48,5 @@ npm update
 7) Run modepress-render
 
 ```
-node main.js config.json prod
+node main.js --config="config.json" --logFile="logs.log" --logging="true"
 ```
