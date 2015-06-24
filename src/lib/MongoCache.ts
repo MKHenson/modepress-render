@@ -2,12 +2,20 @@
 import {ICacheItem} from "./ICacheItem";
 import * as mongodb from "mongodb";
 import * as winston from "winston";
+import * as http from "http";
 
+/**
+* A plugin for storing the rendered pages in a mongodb collection
+*/
 export class MongoCache
 {
     private _collection: mongodb.Collection;
     private _config: IConfig;
 
+    /**
+	* Creates an intance of the cache class
+    * @param {IConfig}
+	*/
     constructor(config: IConfig)
     {
         this._config = config;
@@ -15,6 +23,7 @@ export class MongoCache
 
     /**
 	* Initializes the cache with its mongo db collection
+    * @returns {Promise<MongoCache>}
 	*/
     initialize(): Promise<MongoCache>
     {
@@ -75,6 +84,9 @@ export class MongoCache
 
     /**
     * Intercept the URL, and if we already have it saved - then serve that insted.
+    * @param {any} req
+    * @param {any} res
+    * @param {Function} next
     */
     beforePhantomRequest(req: any, res: any, next: Function)
     {
@@ -103,6 +115,9 @@ export class MongoCache
 
     /**
     * Called after a request has been sent through
+    * @param {any} req
+    * @param {any} res
+    * @param {Function} next
     */
     afterPhantomRequest(req: any, res: any, next: Function)
     {

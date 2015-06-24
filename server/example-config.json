@@ -2,7 +2,7 @@
 	"port": 3000,
 	"databaseHost": "127.0.0.1",
   "databasePort": 27017,
-  "cachePeriod":  30000,
+  "cachePeriod":  2592000000,
 	"databaseName": "modepress",
 	"databaseCollection": "renders"
 }

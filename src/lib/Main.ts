@@ -4,6 +4,7 @@ import {IConfig} from "./IConfig";
 import {MongoCache} from "./MongoCache";
 import * as yargs from "yargs";
 
+// Get the command line arguments
 var arguments = yargs.argv;
 
 // Saves logs to file

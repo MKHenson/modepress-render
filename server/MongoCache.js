@@ -1,11 +1,19 @@
 var mongodb = require("mongodb");
 var winston = require("winston");
+/**
+* A plugin for storing the rendered pages in a mongodb collection
+*/
 var MongoCache = (function () {
+    /**
+    * Creates an intance of the cache class
+    * @param {IConfig}
+    */
     function MongoCache(config) {
         this._config = config;
     }
     /**
     * Initializes the cache with its mongo db collection
+    * @returns {Promise<MongoCache>}
     */
     MongoCache.prototype.initialize = function () {
         var cfg = this._config;
@@ -52,6 +60,9 @@ var MongoCache = (function () {
     };
     /**
     * Intercept the URL, and if we already have it saved - then serve that insted.
+    * @param {any} req
+    * @param {any} res
+    * @param {Function} next
     */
     MongoCache.prototype.beforePhantomRequest = function (req, res, next) {
         if (req.method !== 'GET')
@@ -73,6 +84,9 @@ var MongoCache = (function () {
     };
     /**
     * Called after a request has been sent through
+    * @param {any} req
+    * @param {any} res
+    * @param {Function} next
     */
     MongoCache.prototype.afterPhantomRequest = function (req, res, next) {
         winston.info("Saving request '" + req.url + "' to DB", { process: process.pid });

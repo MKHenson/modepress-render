@@ -2,6 +2,7 @@ var winston = require("winston");
 var fs = require("fs");
 var MongoCache_1 = require("./MongoCache");
 var yargs = require("yargs");
+// Get the command line arguments
 var arguments = yargs.argv;
 // Saves logs to file
 if (arguments.logFile && arguments.logFile.trim() != "")
