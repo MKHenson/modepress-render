@@ -60,3 +60,11 @@ curl -o- https://raw.githubusercontent.com/MKHenson/modepress-render/dev/install
 ```
 node main.js --config="config.json" --logFile="logs.log" --logging="true"
 ```
+
+Ideally however you will want this to be run as an upstart script using something like foreverjs
+
+9) Make sure the url is specified in the config file of the modepress site
+eg:
+```
+ "modepressRenderURL": "http://localhost:3000",
+ ```
