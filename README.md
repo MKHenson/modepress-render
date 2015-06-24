@@ -12,7 +12,7 @@ Modepress render is a server that runs in conjunction with modepress and allows 
 
 ## Installation
 
-1) Make sure the requirements are installed and running (phantom js is discussed on point 7)
+1) Make sure the requirements are installed and running (phantom js is discussed on point 4)
 2) Create a folder where you want to store modepress-render
 
 ```
@@ -25,7 +25,16 @@ cd modepress-render
 sudo su
 ```
 
-4) Download and install the desired version from github
+4) Install phantomjs. We have created a shell script that will attempt to install
+it - but please [read this](ubuntu-phantom-install.md) for more information.
+
+(Credit goes to https://gist.github.com/julionc/7476620 for the original script)
+
+```
+curl -o- https://raw.githubusercontent.com/MKHenson/modepress-render/dev/install-phantom.sh | bash
+```
+
+5) Download and install the desired version from github
 If you want the latest stable version:
 
 ```
@@ -38,22 +47,15 @@ OR if you want the dev build
 curl -o- https://raw.githubusercontent.com/MKHenson/modepress-render/dev/install-script-dev.sh | bash
 ```
 
-5) Run NPM update
+6) Run NPM update
 
 ```
-npm update
+sudo npm update
 ```
 
-6) Edit the config.json with your setup
+Make sure you run the command as 'sudo' even if you if whoami is root
 
-7) Before modepress-render can run, we need to install phantomjs. We have created a shell script that will attempt to install
-it - but please [read this](ubuntu-phantom-install.md) for more information.
-
-(Credit goes to https://gist.github.com/julionc/7476620 for the original script)
-
-```
-curl -o- https://raw.githubusercontent.com/MKHenson/modepress-render/dev/install-phantom.sh | bash
-```
+7) Edit the config.json with your setup
 
 8) Run modepress-render
 
