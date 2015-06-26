@@ -2,7 +2,7 @@
 Modepress render is a server that runs in conjunction with modepress and allows you to pre-render the pages for SEO and web crawling
 
 ## Current stable version
-* v0.0.2
+* v0.0.3
 
 ## Requirements
 * [MongoDB v3](https://www.mongodb.org/)
