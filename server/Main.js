@@ -3,32 +3,36 @@ var fs = require("fs");
 var MongoCache_1 = require("./MongoCache");
 var yargs = require("yargs");
 // Get the command line arguments
-var arguments = yargs.argv;
+var args = yargs.argv;
+// Add the console colours
+winston.addColors({ debug: 'green', info: 'cyan', silly: 'magenta', warn: 'yellow', error: 'red' });
+winston.remove(winston.transports.Console);
+winston.add(winston.transports.Console, { level: 'debug', colorize: true });
 // Saves logs to file
-if (arguments.logFile && arguments.logFile.trim() != "")
-    winston.add(winston.transports.File, { filename: arguments.logFile, maxsize: 50000000, maxFiles: 1, tailable: true });
+if (args.logFile && args.logFile.trim() != "")
+    winston.add(winston.transports.File, { filename: args.logFile, maxsize: 50000000, maxFiles: 1, tailable: true });
 // If no logging - remove all transports
-if (arguments.logging && arguments.logging.toLowerCase().trim() == "false") {
+if (args.logging && args.logging.toLowerCase().trim() == "false") {
     winston.remove(winston.transports.File);
     winston.remove(winston.transports.Console);
 }
 // Saves logs to file
 winston.info("Setting up modepress-render server", { process: process.pid });
 // Make sure the config path argument is there
-if (!arguments.config || arguments.config.trim() == "") {
+if (!args.config || args.config.trim() == "") {
     winston.error("No config file specified. Please start modepress-render with the config path in the argument list. Eg: 'node main.js --config=\"config.js\"'", { process: process.pid });
     process.exit();
 }
 // Make sure the file exists
-if (!fs.existsSync(arguments.config)) {
-    winston.error("Could not locate the config file at '" + arguments.config + "'", { process: process.pid });
+if (!fs.existsSync(args.config)) {
+    winston.error("Could not locate the config file at '" + args.config + "'", { process: process.pid });
     process.exit();
 }
 try {
-    var config = JSON.parse(fs.readFileSync(arguments.config, "utf8"));
+    var config = JSON.parse(fs.readFileSync(args.config, "utf8"));
 }
 catch (err) {
-    winston.error("Could not parse config file at '" + arguments.config + "' : '" + err.toString() + "'", { process: process.pid });
+    winston.error("Could not parse config file at '" + args.config + "' : '" + err.toString() + "'", { process: process.pid });
     process.exit();
 }
 // Get the prerender
